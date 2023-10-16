@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        h2 {
+            text-align: center;
+        }
+        
+        .red-day,
+        .orange-day,
+        .green-day {
+            font-weight: bold;
+        }
+        
+        .small-text {
+            font-size: 14px;    
+        }
+        
+        .red-day {
+            color: #FF0000; /* Hex value for red */
+        }
+        
+        .orange-day {
+            color: #FFA500; /* Hex value for lightcoral */
+        }
+        
+        .green-day {
+            color: #98FB98; /* Hex value for green */
+        }
+        
+        .calendarForm {
+            display: flex;
+            justify-content: center; /* Center the content horizontally */
+            align-items: center; /* Center the content vertically */
+            /* height: 100vh;  Make the container take up the full viewport height */
+        }
+        
+        #dateForm {
+            flex: 1;
+            padding-right: 30px;
+        }
+        
+        #legend {
+            flex: 1;
+        }
+        
+        /* Mobile-specific styles */
+        @media screen and (max-width: 768px) {
+            .calendarCalendar {
+                max-width: 70%; /* Make the calendar container responsive */
+                /* overflow-x: auto; /* Add horizontal scrolling on smaller screens */
+            }
+            
+            .red-day {
+                color: #FF0000; /* Hex value for red */
+            }
+            
+            .orange-day {
+                color: #FFA500; /* Hex value for lightcoral */
+            }
+            
+            .green-day {
+                color: #98FB98; /* Hex value for green */
+            }
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>Period and Fertility Calendar</title>
+</head>
+<body>
+    <main class="container">
+        <h2>Period and Fertility Calendar Calculator</h2>
+        <div class="calendarForm">
+            <form id="dateForm" method="POST" action="/">
+                <p>When was the first (1st) day of your last period?</p>
+                <label for="year">Last Period Year:</label>
+                <input type="text" id="year" name="year" required><br>
+                
+                <label for="month">Last Period Month:</label>
+                <input type="text" id="month" name="month" required><br>
+                
+                <label for="day">Last Period Day:</label>
+                <input type="text" id="day" name="day" required><br>
+                
+                <label for="period_days">Days Between Periods:</label>
+                <input type="text" id="period_days" name="period_days" title="Default value is 28"><br>
+                
+                <input type="submit" value="Submit">
+            </form>
+            <div id="legend">
+                <p>🟥 Red date is the first (1st) day of your last period</p>
+                <p>🟩 Green days are the fertile days, including ovulation, when the likelihood of remaining pregnant is higher</p> 
+                <p>🟧 Orange day is the estimated first (1st) day of your next period, based on your estimated numbers of days between periods <span class="small-text">(the standard number of days of a menstrual cycle is 28. However, it can differ from woman to women, being smaller or greater, so it is highly recommended to count the days between the first days of your periods, throughout multiple months, to obtain a more accurate number)</span></p>
+            </div>
+        </div>
+        <div class="calendarCalendar">
+            {{ calendar_html | safe }}
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+  document.getElementById("dateForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Serialize form data into a JSON object
+    const formData = {
+      year: document.getElementById("year").value,
+      month: document.getElementById("month").value,
+      day: document.getElementById("day").value,
+      period_days: document.getElementById("period_days").value,
+    };
+
+    // Send the data to your Flask backend
+    fetch('/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Set the content type to JSON
+      },
+      body: JSON.stringify(formData), // Convert the data to JSON
+      },
+    })
+    .then(response => {
+      // Handle the response from the Flask backend here
+      if (response.ok) {
+        // Success
+      } else {
+        // Handle errors
+      }
+    })
+    .catch(error => {
+      // Handle network or other errors
+    });
+  });
+</script>
