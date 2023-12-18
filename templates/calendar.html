@@ -73,7 +73,7 @@
     <main class="container">
         <h2>Period and Fertility Calendar Calculator</h2>
         <div class="calendarForm">
-            <form id="dateForm" method="POST" action="/">
+            <form id="dateForm" method="POST" action="/period-and-fertility-calculator">
                 <p>When was the first (1st) day of your last period?</p>
                 <label for="year">Last Period Year:</label>
                 <input type="text" id="year" name="year" required><br>
@@ -115,7 +115,7 @@
     };
 
     // Send the data to your Flask backend
-    fetch('/', {
+    fetch('/period-and-fertility-calculator', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Set the content type to JSON

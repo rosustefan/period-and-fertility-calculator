@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from datetime import date, datetime, timedelta
 from calendar import HTMLCalendar
 from colorama import Fore
@@ -97,7 +99,7 @@ def calculate_next_period(year, month, day, period_days):
     return calendar_html
 
 
-@app.route("/", methods=['POST', 'GET'])
+@app.route("/period-and-fertility-calculator", methods=['POST', 'GET'])
 def generate_calendar():
     # Get form data
     if request.method == 'POST':
